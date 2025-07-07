@@ -1,115 +1,125 @@
-# 🛒 Product Management API
+# 🛒 Admin Dashboard - Product Management API
 
-A simple full-stack ready REST API for managing products using **Node.js**, **Express**, **TypeScript**, **PostgreSQL**, and **TypeORM**.
+A full-featured backend project for managing products with image upload support, built using **TypeScript**, **Express**, **TypeORM**, **PostgreSQL**, **Multer**, and **Cloudinary**. Deployed seamlessly on **Render**.
 
 ---
 
-## 🔧 Tech Stack
+## 🚀 Features
 
-- **Backend**: Node.js, Express.js
-- **Language**: TypeScript
-- **Database**: PostgreSQL
-- **ORM**: TypeORM
-- **HTTP Client**: Postman (for testing)
+- 📦 **Product CRUD** – Create, Read, Update, Delete Products
+- 🖼️ **Image Upload** – Upload multiple images with Multer
+- ☁️ **Cloud Storage** – Image storage powered by Cloudinary
+- 📁 **TypeORM** – Smooth ORM integration with PostgreSQL
+- ⚙️ **TypeScript** – Fully typed and scalable codebase
+- 🌐 **Deployed** – Hosted backend API live on Render
+
+---
+
+## 📸 Screenshots
+
+| 📋 Product List | ➕ Add Product | 🖊️ Edit Product |
+|----------------|---------------|----------------|
+| [![Screenshot-2025-07-07-185925.png](https://i.postimg.cc/qMc58Pw7/Screenshot-2025-07-07-185925.png)](https://postimg.cc/gnJspBf9) | [![image.png](https://i.postimg.cc/tJ32N6hc/image.png)](https://postimg.cc/K3YPZRp7) | ![image](https://github.com/user-attachments/assets/ef211b23-7a5a-483a-9f38-c4bbc8de0321)
+
+
+---
+
+## ⚙️ Tech Stack
+
+| Layer        | Tech                        |
+|--------------|-----------------------------|
+| Language     | TypeScript                  |
+| Framework    | Node.js + Express           |
+| ORM          | TypeORM                     |
+| Database     | PostgreSQL                  |
+| File Upload  | Multer                      |
+| Image Host   | Cloudinary                  |
+| Deployment   | Render                      |
+| Styling (UI) | Tailwind CSS |
 
 ---
 
 ## 📁 Project Structure
 
-```
-
-src/
-├── config/                 # Database config (TypeORM DataSource)
-├── entity/                 # TypeORM entities (tables)
-├── controller/             # Request handlers (business logic)
-├── routes/                 # API route definitions
-└── index.ts                # Main app entry point
-
+```bash
+├── src/
+│   ├── config/
+│   │   ├── datasource.ts         # PostgreSQL connection
+│   │   └── cloudinary.ts         # Cloudinary config
+│   ├── controller/
+│   │   └── product.controller.ts # Core logic for product CRUD
+│   ├── entity/
+│   │   └── product.ts            # Product entity schema
+│   ├── middleware/
+│   │   └── multer.ts             # Multer with Cloudinary
+│   ├── routes/
+│   │   └── product.route.ts      # API routes
+│   └── index.ts                  # App entry point
+├── .env                          # Environment variables
+├── tsconfig.json                 # TypeScript config
+└── package.json                  # Project dependencies
 ````
 
 ---
 
-## 🚀 Setup Instructions
+## 🌐 API Endpoints
 
-1. **Install dependencies**
+| Method | Route              | Description        |
+| ------ | ------------------ | ------------------ |
+| GET    | `/getall`          | Get all products   |
+| GET    | `/getproduct/:sku` | Get product by SKU |
+| POST   | `/add`             | Add new product    |
+| PUT    | `/update/:sku`     | Update product     |
+| DELETE | `/delete/:sku`     | Delete product     |
+
+> Images are sent using `multipart/form-data` with key `image`.
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file:
+
+```env
+PORT=3000
+DATABASE_URL=your_postgres_db_url
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+---
+
+## 🧪 Testing (Postman)
+
+* Use **form-data** tab for POST/PUT requests.
+* Key for image upload must be **`image`** (with type "File").
+* Add `name`, `price`, and `description` as text fields.
+
+---
+
+## 📦 Deployment (Render)
+
+### ➤ Build & Start Commands
 
 ```bash
-npm install
-````
-
-2. **Configure PostgreSQL**
-
-Make sure PostgreSQL is running locally with a database named `crudpost`. Update credentials in `AppDataSource`:
-
-```ts
-username: "postgres",
-password: "root",
-database: "crudpost",
+Build command:     npm run build
+Start command:     npm start
 ```
 
-3. **Start the app in dev mode**
+### ➤ Important
 
-```bash
-npm run dev
-```
-
-or build and start:
-
-```bash
-npm run build
-npm start
-```
+Ensure all dependencies are listed in `package.json` under `dependencies`, not just `devDependencies`.
 
 ---
 
-## 📦 API Endpoints
+## 👨‍💻 Author
 
-Base URL: `http://localhost:3000/products`
-
-| Method   | Endpoint          | Description          |
-| -------- | ----------------- | -------------------- |
-| `GET`    | `/get`            | Get all products     |
-| `POST`   | `/add`            | Add a new product    |
-| `GET`    | `/getproduct/:id` | Get product by ID    |
-| `PUT`    | `/update/:id`     | Update product by ID |
-| `DELETE` | `/delete/:id`     | Delete product by ID |
+**Aakash Gupta**
+GitHub: [@aakash-gupta02](https://github.com/aakash-gupta02)
 
 ---
 
-## 🧪 Sample Request (POST /add)
+## 📝 License
 
-```json
-{
-  "name": "iPhone 15 Pro",
-  "price": 129999,
-  "description": "Apple's latest flagship with titanium frame and A17 Pro chip"
-}
-```
-
----
-
-## ✅ Response Example (GET /get)
-
-```json
-[
-  {
-    "id": 1,
-    "name": "iPhone 15 Pro",
-    "price": 129999,
-    "description": "Apple's latest flagship with titanium frame and A17 Pro chip"
-  }
-]
-```
-
----
-
-## 📝 Notes
-
-* TypeORM auto-generates table schema if `synchronize: true` is enabled
-* Use Postman or any REST client to test endpoints
-
----
-
-## 📄 License
-
-MIT
+MIT License – Free to use and modify.
