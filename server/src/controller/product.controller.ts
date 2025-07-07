@@ -5,25 +5,26 @@ import { Products } from "../entity/product";
 const repo = datasource.getRepository(Products);
 
 // Get all products
-export const getProducts = async (_: Request, res: Response) => {
+export const getProducts = async (_: Request, res: Response): Promise<void> => {
   const products = await repo.find();
-  res.json(products);
+  res.json(products); 
 };
 
 // Get product by SKU
-export const getProductsByID = async (req: Request, res: Response) => {
+export const getProductsByID = async (req: Request, res: Response): Promise<void> => {
   const { sku } = req.params;
 
   const product = await repo.findOneBy({ sku: parseInt(sku) });
   if (!product) {
-    return res.status(404).json({ message: "Product not found" });
+    res.status(404).json({ message: "Product not found" });
+    return;
   }
 
   res.json(product);
 };
 
 // Add a product
-export const add = async (req: Request, res: Response) => {
+export const add = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, price, description } = req.body;
     const files = req.files as Express.Multer.File[];
@@ -47,7 +48,7 @@ export const add = async (req: Request, res: Response) => {
 };
 
 // Update product
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const { sku } = req.params;
     const { name, price, description } = req.body;
@@ -55,13 +56,13 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     const existingProduct = await repo.findOneBy({ sku: parseInt(sku) });
     if (!existingProduct) {
-      return res.status(404).json({ message: "Product not found" });
+      res.status(404).json({ message: "Product not found" });
+      return;
     }
 
-    // If new images are uploaded, replace old ones
     let updatedImages = existingProduct.images;
     if (files && files.length > 0) {
-      updatedImages = files.map(file => file.path);
+      updatedImages = files.map((file) => file.path);
     }
 
     await repo.update({ sku: parseInt(sku) }, {
@@ -78,15 +79,15 @@ export const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
-
 // Delete product
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const { sku } = req.params;
 
     const existingProduct = await repo.findOneBy({ sku: parseInt(sku) });
     if (!existingProduct) {
-      return res.status(404).json({ message: "Product not found" });
+      res.status(404).json({ message: "Product not found" });
+      return;
     }
 
     await repo.delete({ sku: parseInt(sku) });

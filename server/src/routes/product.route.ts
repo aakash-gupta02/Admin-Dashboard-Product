@@ -7,7 +7,7 @@ const router: Router = express.Router();
 // const router = Router()
 
 
-router.put("/update/:sku" , updateProduct )
+router.put("/update/:sku" ,upload.array("image", 5), updateProduct )
 router.delete("/delete/:sku", deleteProduct )
 
 router.get("/get", getProducts)
