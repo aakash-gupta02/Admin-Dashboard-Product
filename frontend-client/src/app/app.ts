@@ -38,7 +38,7 @@ export class App implements OnInit {
   // Load all products
   loadProducts() {
     this.isLoading = true;
-    this.http.get('http://localhost:3000/product/get').subscribe({
+    this.http.get('https://admin-dashboard-product.onrender.com/product/get').subscribe({
       next: (data: any) => {
         this.products = data;
         this.isLoading = false;
@@ -91,7 +91,7 @@ onImageSelect(event: any) {
   // Open edit modal
   openEditModal(sku: number) {
     this.isLoading = true;
-    this.http.get(`http://localhost:3000/product/getproduct/${sku}`).subscribe({
+    this.http.get(`https://admin-dashboard-product.onrender.com/product/getproduct/${sku}`).subscribe({
       next: (product: any) => {
         this.productForm.patchValue(product);
         this.existingImages = product.images || [];
@@ -144,8 +144,8 @@ onImageSelect(event: any) {
     });
 
     const request$ = this.isEditing && this.currentSku
-      ? this.http.put(`http://localhost:3000/product/update/${this.currentSku}`, formData)
-      : this.http.post('http://localhost:3000/product/add', formData);
+      ? this.http.put(`https://admin-dashboard-product.onrender.com/product/update/${this.currentSku}`, formData)
+      : this.http.post('https://admin-dashboard-product.onrender.com/product/add', formData);
 
     request$.subscribe({
       next: () => this.resetForm(),
@@ -159,7 +159,7 @@ onImageSelect(event: any) {
   // Confirm and delete product
   deleteProduct(sku: number) {
     this.isLoading = true;
-    this.http.delete(`http://localhost:3000/product/delete/${sku}`).subscribe({
+    this.http.delete(`https://admin-dashboard-product.onrender.com/product/delete/${sku}`).subscribe({
       next: () => {
         this.loadProducts();
         this.closeModal();
